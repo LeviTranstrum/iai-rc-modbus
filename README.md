@@ -1,1 +1,2 @@
 basic python interface to control IAI RoboCylinder through CON controller over Modbus RTU
+https://www.intelligentactuator.com/pdf/manuals/Serial%20Communication%20Protocol%20[Modbus%20Version]%20Operation%20Manual%20v2.pdf
