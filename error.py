@@ -1,5 +1,5 @@
 class Error:
-    def __init__(self, msg):
+    def __init__(self, msg: str):
         self.msg = str(msg)
         print(msg)
 

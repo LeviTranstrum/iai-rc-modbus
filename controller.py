@@ -19,7 +19,7 @@ def new_point(position: float, velocity: float, acceleration: float, position_to
         
 class Controller:
     def __init__(self, port="COM4", ):
-        self.client = ModbusSerialClient("COM4", baudrate=9600)
+        self.client = ModbusSerialClient("COM4", baudrate=115200)
     
     def connect(self) -> Optional[Error]:
         err = None
@@ -95,13 +95,22 @@ class Controller:
             self.client.write_registers(address=0x9904, slave=0x01, values=[0x0000, int(velocity*100)])
         except Exception as e:
             return Error(e).wrap("caught an exception during change_velocity command")
+    
+    def stop(self) -> Optional[Error]:
+        try:
+            self.client.write_coil(address=0x042C, slave=0x01, value=True)
+        except Exception as e:
+            return Error(e).wrap("caught an exception during change_velocity command")
 
 if __name__ == "__main__":
     RCP5 = Controller()
     RCP5.connect()
-    RCP5.get_current_position()
+    pos, err = RCP5.get_current_position()
+    print(pos)
     RCP5.servo_on()
     RCP5.home()
     RCP5.move_to_point(120, 10, 1)
+    RCP5.stop()
     RCP5.move_to_point(10, 20, 1)
+    RCP5.stop()
     
